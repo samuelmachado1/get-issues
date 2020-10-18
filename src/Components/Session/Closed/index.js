@@ -18,7 +18,7 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 
 import {Table} from './styles'
 
-import { getAllIssues, getOpenIssues } from '../../../services/api_git';
+import { getAllIssues, getClosedIssues } from '../../../services/api_git';
 import { toast } from 'react-toastify';
 import { blue } from '@material-ui/core/colors';
 
@@ -171,7 +171,7 @@ export default function CustomPaginationActionsTable() {
   async function init() {
     setLoading(true);
     try {
-      await getOpenIssues()
+      await getClosedIssues()
         .then((res) => {
             setIssues(res);
         });
@@ -196,11 +196,10 @@ export default function CustomPaginationActionsTable() {
           <thead>
             <tr>
               <th>Número</th>
-              <th>Aberta em:</th>
+              <th>Fechada em:</th>
               <th>Estado</th>
               <th>Labels</th>
               <th>Quantidade de Comentários</th>
-              {/* <th></th> */}
             </tr>
           </thead>
             <tbody>
@@ -214,7 +213,7 @@ export default function CustomPaginationActionsTable() {
                             <h4>{issue.number}</h4> 
                           </TableCell> 
                           <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
-                            <h4>{issue.created_at.replace(/(\d*)-(\d*)-(\d*).*/, '$3/$2/$1')}</h4>
+                            <h4>{issue.closed_at.replace(/(\d*)-(\d*)-(\d*).*/, '$3/$2/$1')}</h4>
                           </TableCell>
                           <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
                             <h4>{issue.state.toUpperCase()}</h4>
@@ -233,7 +232,7 @@ export default function CustomPaginationActionsTable() {
                         </TableCell>
                     
                         <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
-                          {issue.created_at.replace(/(\d*)-(\d*)-(\d*).*/, '$3/$2/$1')}
+                          {issue.closed_at.replace(/(\d*)-(\d*)-(\d*).*/, '$3/$2/$1')}
                         </TableCell>
 
                         <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
