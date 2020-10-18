@@ -20,7 +20,7 @@ import {Table} from './styles'
 
 import { getAllIssues, getClosedIssues } from '../../../services/api_git';
 import { toast } from 'react-toastify';
-import { blue } from '@material-ui/core/colors';
+
 
 const useStyles1 = makeStyles((theme) => ({
   root: {
@@ -34,10 +34,6 @@ function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onChangePage } = props;
 
-  const [requests, setRequests] = useState([]);
-  
-
-  // console.log("POR", props);
 
   const handleFirstPageButtonClick = (event) => {
     onChangePage(event, 0);
@@ -54,28 +50,7 @@ function TablePaginationActions(props) {
   const handleLastPageButtonClick = (event) => {
     onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
-  console.log("page", page)
-  // console.log("AIWO", res)
-  // console.log("AIWO", res)
-  const getRequestsIssues = async (query) => {
-      
-    let res = await getAllIssues(page)
-    // console.log("AIWO", res.length)
-    // count = res.length;
-    
   
-    return { 
-     
-      // data: formatedRequests,
-      
-    }
-    
-  };
-  
- useEffect(() => {
-    // init();
-    getRequestsIssues();
-  }, []);
  
   return (
     <div className={classes.root}>
@@ -112,25 +87,8 @@ TablePaginationActions.propTypes = {
   onChangePage: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
-  // data: PropTypes.formatedRequests,
 };
 
-
-
-
-// function createData(name, calories, fat) {
-//   return { name, calories, fat };
-// }
-
-const basicColumns = [
-  { title: 'Número', field: 'number', searchable: true },
-  { title: 'Criada em', field: 'created_at' },
-  { title: 'Estado', field: 'states', searchable: true },
-  { title: 'Labels', field: 'labels', searchable: true },
-  
-];
-
-// const columns = basicColumns;
 
 const rows = [
   
@@ -151,9 +109,6 @@ export default function CustomPaginationActionsTable() {
   const userData = JSON.parse(sessionStorage.getItem('user'));
   const [issues, setIssues] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
-  console.log("ROWS ->", rowsPerPage);
-  // console.log("ISS.LEN ->", basicColumns);
-  console.log("PAG", page);
   
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -184,7 +139,6 @@ export default function CustomPaginationActionsTable() {
   
   useEffect(() => {
     init();
-    // getRequestsIssues();
   }, []);
 
   
@@ -205,9 +159,9 @@ export default function CustomPaginationActionsTable() {
             <tbody>
               {
                 issues.map((issue) => (
-                  console.log("issue --->", issue),
+                  // console.log("issue --->", issue),
                   <tr>
-                    {issue.number % 2 != 0 ?
+                    {   issue.number % 2 != 0 ?
                       <>
                           <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
                             <h4>{issue.number}</h4> 
@@ -248,19 +202,17 @@ export default function CustomPaginationActionsTable() {
 
                       </>
 
-}
-                                                              
+                    }
                   </tr>
                 ))
               }
             </tbody>
         </Table>
-
-          {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={6} />
-            </TableRow>
-          )}
+        {emptyRows > 0 && (
+          <TableRow style={{ height: 53 * emptyRows }}>
+            <TableCell colSpan={6} />
+          </TableRow>
+        )}
         </TableBody>
         <TableFooter>
           <TableRow>
