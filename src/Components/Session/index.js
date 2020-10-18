@@ -12,6 +12,7 @@ import {
   ContainerBox,
   Container,
   Row,
+  FormatedTitle,
 } from './style';
 
 import Prospection from './Prospection';
@@ -87,29 +88,15 @@ const Requests = () => {
           title={modal.title}
           message={modal.message}
         />
-        {/* <Loading
-          isLoading={isLoading.full}
-        /> */}
-        {/* {!!interview && (
-          <DetailRequest
-            isOpen={showDetailRequest}
-            handleClose={() => dispatch(setSelectedRequest({}))}
-            selectedRequest={selectedRequest}
-            setInterviewDate={(e) => dispatch(setInterviewDate(e))}
-            handleUpdateInterview={handleUpdateInterview}
-          />
-        )} */}
+        
         <Container>
-          {/* <Title>Minhas Solicitações</Title> */}
           <Row>
             <Tabs forceRenderTabPanel>
               <TabList>
-                <Tab>Todas as Issues</Tab>
-                <Tab>Issues Abertas</Tab>
-                <Tab>Issues Fechadas</Tab>
-                <Tab>Issues Mais Comentadas</Tab>
-                
-              
+                <Tab><FormatedTitle>Todas as Issues</FormatedTitle></Tab>
+                <Tab><FormatedTitle>Issues Abertas</FormatedTitle></Tab>
+                <Tab><FormatedTitle>Issues Fechadas</FormatedTitle></Tab>
+                <Tab><FormatedTitle>Issues Mais Comentadas</FormatedTitle></Tab>
               </TabList>
               <TabPanel>
                 <All />

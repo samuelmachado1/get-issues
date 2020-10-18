@@ -17,6 +17,10 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 
 import {Table} from './styles'
+import {
+  FormatedTitle,
+  FormatedLabel,
+} from '../style'
 
 import { getIssues, getAllIssues } from '../../../services/api_git';
 import { toast } from 'react-toastify';
@@ -185,11 +189,11 @@ export default function CustomPaginationActionsTable() {
         <Table>
           <thead>
             <tr>
-              <th>Número</th>
-              <th>Criada em:</th>
-              <th>Estado</th>
-              <th>Labels</th>
-              <th>Quantidade de Comentários</th>
+              <th><FormatedTitle>Número</FormatedTitle></th>
+              <th><FormatedTitle>Criada em:</FormatedTitle></th>
+              <th><FormatedTitle>Estado</FormatedTitle></th>
+              <th><FormatedTitle>Labels</FormatedTitle></th>
+              <th><FormatedTitle>Quantidade de Comentários</FormatedTitle></th>
               {/* <th></th> */}
             </tr>
           </thead>
@@ -201,40 +205,40 @@ export default function CustomPaginationActionsTable() {
                     {issue.number % 2 != 0 ?
                       <>
                           <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
-                            <h4>{issue.number}</h4> 
+                            <FormatedTitle>{issue.number}</FormatedTitle> 
                           </TableCell> 
                           <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
-                            <h4>{issue.created_at.replace(/(\d*)-(\d*)-(\d*).*/, '$3/$2/$1')}</h4>
+                            <FormatedTitle>{issue.created_at.replace(/(\d*)-(\d*)-(\d*).*/, '$3/$2/$1')}</FormatedTitle>
                           </TableCell>
                           <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
-                            <h4>{issue.state.toUpperCase()}</h4>
+                            <FormatedTitle>{issue.state.toUpperCase()}</FormatedTitle>
                           </TableCell>
                           <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
-                            <h4>{issue.labels.length == 0 ? "N/A" : issue.labels[0].name}</h4>
+                            <FormatedTitle>{issue.labels.length == 0 ? "N/A" : issue.labels[0].name}</FormatedTitle>
                           </TableCell>
                           <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
-                            <h4>{issue.comments}</h4>
+                            <FormatedTitle>{issue.comments}</FormatedTitle>
                           </TableCell>
                       </>
                       :
                       <>
                         <TableCell component="th" scope="row" style={{ width: 160}} align="center" color="secondary">
-                          {issue.number}
+                          <FormatedLabel>{issue.number}</FormatedLabel>
                         </TableCell>
                     
                         <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
-                          {issue.created_at.replace(/(\d*)-(\d*)-(\d*).*/, '$3/$2/$1')}
+                          <FormatedLabel>{issue.created_at.replace(/(\d*)-(\d*)-(\d*).*/, '$3/$2/$1')}</FormatedLabel>
                         </TableCell>
 
                         <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
-                          {issue.state.toUpperCase()}
+                          <FormatedLabel>{issue.state.toUpperCase()}</FormatedLabel>
                         </TableCell>
 
                         <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
-                          {issue.labels.length == 0 ? "N/A" : issue.labels[0].name}
+                          <FormatedLabel>{issue.labels.length == 0 ? "N/A" : issue.labels[0].name}</FormatedLabel>
                         </TableCell>
                         <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
-                            {issue.comments}
+                            <FormatedLabel>{issue.comments}</FormatedLabel>
                         </TableCell>
 
                       </>

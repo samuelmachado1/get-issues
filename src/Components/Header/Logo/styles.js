@@ -15,13 +15,13 @@ export const Line = styled.div`
 `;
 
 export const LogoName = styled.span`
-  font-family: 'Nexa';
-  font-size: 26px;
+  font-family: 'OpenSans' !important;
+  font-size: 30px;
   line-height: 30px;
-  letter-spacing: 0.1em;
+  letter-spacing: 0em;
   text-transform: uppercase;
 
   color: #FFFFFF;
 
-  opacity: 0.9;
+  /* opacity: 0.9; */
 `;

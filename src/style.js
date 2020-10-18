@@ -22,8 +22,8 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   @font-face {
-    font-family: "OpenSans";
-    src: url(${OpenSans});
+    font-family: "Nexa";
+    src: url(${Nexa});
   }
 
   @font-face {

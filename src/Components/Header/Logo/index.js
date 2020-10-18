@@ -12,8 +12,9 @@ function Logo() {
     <Container>
       <Line />
       <LogoName>
-        Get Issues 
+        Get issues from the repository React
       </LogoName>
+      
     </Container>
   );
 }
