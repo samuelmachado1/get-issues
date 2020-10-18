@@ -107,7 +107,6 @@ const Requests = () => {
                 <Tab>Todas as Issues</Tab>
                 <Tab>Issues Abertas</Tab>
                 <Tab>Issues Fechadas</Tab>
-                <Tab>Issues Mais Recentes</Tab>
                 <Tab>Issues Mais Comentadas</Tab>
                 
               
@@ -120,9 +119,6 @@ const Requests = () => {
               </TabPanel>
               <TabPanel>
                 <Closed />
-              </TabPanel>
-              <TabPanel>
-                <Recent />
               </TabPanel>
               <TabPanel>
                 <MostCommented />

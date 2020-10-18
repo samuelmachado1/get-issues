@@ -129,6 +129,7 @@ export default function CustomPaginationActionsTable() {
       await getClosedIssues()
         .then((res) => {
             setIssues(res);
+            console.log("GET CLO", res)
         });
     } catch (error) {
       toast.warn('Aconteceu um erro ao recuperar as issues');
@@ -159,7 +160,7 @@ export default function CustomPaginationActionsTable() {
             <tbody>
               {
                 issues.map((issue) => (
-                  // console.log("issue --->", issue),
+                  console.log("issue CLose --->", issue),
                   <tr>
                     {   issue.number % 2 != 0 ?
                       <>

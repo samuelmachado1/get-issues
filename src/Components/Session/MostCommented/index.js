@@ -18,7 +18,7 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 
 import {Table} from './styles'
 
-import { getAllIssues, getOpenIssues } from '../../../services/api_git';
+import { getAllIssues, getMostCommentedIssues } from '../../../services/api_git';
 import { toast } from 'react-toastify';
 import { blue } from '@material-ui/core/colors';
 
@@ -171,9 +171,10 @@ export default function CustomPaginationActionsTable() {
   async function init() {
     setLoading(true);
     try {
-      await getOpenIssues()
+      await getMostCommentedIssues()
         .then((res) => {
-            setIssues(res);
+          setLoading(true);
+          setIssues(res);
         });
     } catch (error) {
       toast.warn('Aconteceu um erro ao recuperar as issues');
