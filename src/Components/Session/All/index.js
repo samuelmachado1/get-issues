@@ -33,11 +33,31 @@ function TablePaginationActions(props) {
   const classes = useStyles1();
   const theme = useTheme();
   const { count, page, rowsPerPage, onChangePage } = props;
+  const [total, setTotal] = useState(0)
+  const [loading, setLoading] = React.useState(true);
 
-  const [requests, setRequests] = useState([]);
+  async function init() {
+    setLoading(true);
+    try {
+      await getAllIssues()
+        .then((res) => {
+            
+            setTotal(res.length)
+            
+        });
+    } catch (error) {
+      toast.warn('Aconteceu um erro ao recuperar as issues');
+    } finally {
+      setLoading(false);
+    }
+  }
   
+  useEffect(() => {
+    init();
+    // getRequestsIssues();
+  }, []);
 
-  // console.log("POR", props);
+ 
 
   const handleFirstPageButtonClick = (event) => {
     onChangePage(event, 0);
@@ -52,31 +72,11 @@ function TablePaginationActions(props) {
   };
 
   const handleLastPageButtonClick = (event) => {
+    count = total;
     onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-  };
-  console.log("page", page)
-  // console.log("AIWO", res)
-  // console.log("AIWO", res)
-  const getRequestsIssues = async (query) => {
-      
-    let res = await getAllIssues(page)
-    // console.log("AIWO", res.length)
-    // count = res.length;
-    
-  
-    return { 
-     
-      // data: formatedRequests,
-      
-    }
-    
+
   };
   
- useEffect(() => {
-    // init();
-    getRequestsIssues();
-  }, []);
- 
   return (
     <div className={classes.root}>
       <IconButton
@@ -116,22 +116,6 @@ TablePaginationActions.propTypes = {
 };
 
 
-
-
-// function createData(name, calories, fat) {
-//   return { name, calories, fat };
-// }
-
-const basicColumns = [
-  { title: 'Número', field: 'number', searchable: true },
-  { title: 'Criada em', field: 'created_at' },
-  { title: 'Estado', field: 'states', searchable: true },
-  { title: 'Labels', field: 'labels', searchable: true },
-  
-];
-
-// const columns = basicColumns;
-
 const rows = [
   
  
@@ -145,35 +129,40 @@ const useStyles2 = makeStyles({
 
 export default function CustomPaginationActionsTable() {
   const classes = useStyles2();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = React.useState(1);
+  const [total, setTotal] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const history = useHistory();
   const userData = JSON.parse(sessionStorage.getItem('user'));
   const [issues, setIssues] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   console.log("ROWS ->", rowsPerPage);
-  // console.log("ISS.LEN ->", basicColumns);
+  console.log("ISS.LEN ->", total);
   console.log("PAG", page);
   
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, total - page * rowsPerPage);
+
+  console.log("emptyRows", emptyRows);
+  
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    console.log("SET PAGE", newPage)
   };
 
   const handleChangeRowsPerPage = (event) => {
-    
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
   };
 
   async function init() {
     setLoading(true);
     try {
-      await getIssues()
+      await getAllIssues()
         .then((res) => {
             setIssues(res);
+            setTotal(res.length)
             
         });
     } catch (error) {
@@ -267,13 +256,13 @@ export default function CustomPaginationActionsTable() {
         <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[10, { label: 'All', value: -1 }]}
+              rowsPerPageOptions={[5, 10, { label: 'All', value: -1 }]}
               colSpan={3}
-              count={rows.length}
+              count={total}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{
-                inputProps: { 'aria-label': 'rows per page' },
+                inputProps: { 'aria-label': 'rows' },
                 native: true,
               }}
               onChangePage={handleChangePage}
