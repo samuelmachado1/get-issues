@@ -16,7 +16,14 @@ import {
 
 import Prospection from './Prospection';
 import Realocation from './Realocation';
+
 import All from './All';
+import Open from './Open';
+import Closed from './Closed';
+import Recent from './Recent';
+import MostCommented from './MostCommented';
+
+
 
 import Modal from '../../components/Modal';
 import Title from '../../components/Title';
@@ -57,7 +64,8 @@ const Requests = () => {
     //     dispatch(handleModal(true, 'Ops... ocorreu um erro inesperado. Tente novamente.', 'Erro'));
         
     //   })
-    //   .finally(() => {
+    //   .finRecenty(() => {
+      // MostCommented.finRecenty(() => {
     //     dispatch(handleLoading(false, 'full'));
     //   });
   };
@@ -99,16 +107,25 @@ const Requests = () => {
                 <Tab>Todas as Issues</Tab>
                 <Tab>Issues Abertas</Tab>
                 <Tab>Issues Fechadas</Tab>
+                <Tab>Issues Mais Recentes</Tab>
+                <Tab>Issues Mais Comentadas</Tab>
+                
               
               </TabList>
               <TabPanel>
                 <All />
               </TabPanel>
               <TabPanel>
-                <Prospection />
+                <Open />
               </TabPanel>
               <TabPanel>
-                <Prospection />
+                <Closed />
+              </TabPanel>
+              <TabPanel>
+                <Recent />
+              </TabPanel>
+              <TabPanel>
+                <MostCommented />
               </TabPanel>
             </Tabs>
           </Row>
