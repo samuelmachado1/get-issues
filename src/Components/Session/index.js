@@ -16,8 +16,6 @@ import {
   FormatedLabel,
 } from './style';
 
-import Prospection from './Prospection';
-import Realocation from './Realocation';
 
 import All from './All';
 import Open from './Open';
