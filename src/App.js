@@ -16,7 +16,6 @@ const App = () =>  (
       <Header/>
       <header className="App-header">
         <Requests/>
-        {/* <TableModel/> */}
       </header>
     </Router>
        
