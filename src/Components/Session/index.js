@@ -38,7 +38,6 @@ import RequestsContext from './context';
 const Requests = () => {
   const dispatch = useDispatch();
   const modal = useSelector((state) => state.requests.modal);
-  const userData = JSON.parse(localStorage.getItem('user'));
   const [interview, setInterview] = useState(null);
   const [setShowDetailRequest] = useState(false);
 
@@ -68,7 +67,6 @@ const Requests = () => {
                 <Tab><FormatedLabel>FECHADAS</FormatedLabel></Tab>
                 <Tab><FormatedLabel>MAIS COMENTADAS</FormatedLabel></Tab>
               </TabList>
-              
               <TabPanel>
                 <All />
               </TabPanel>
