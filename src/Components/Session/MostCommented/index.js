@@ -175,11 +175,11 @@ export default function CustomPaginationActionsTable() {
         <Table>
           <thead>
             <tr>
-              <th><FormatedLabel>Número</FormatedLabel></th>
+              <th><FormatedLabel>Quantidade de Comentários</FormatedLabel></th>
+              <th><FormatedLabel>Labels</FormatedLabel></th>
               <th><FormatedLabel>Aberta em:</FormatedLabel> </th>
               <th><FormatedLabel>Estado</FormatedLabel></th>
-              <th><FormatedLabel>Labels</FormatedLabel></th>
-              <th><FormatedLabel>Quantidade de Comentários</FormatedLabel></th>
+              <th><FormatedLabel>Número</FormatedLabel></th>
             </tr>
           </thead>
             <tbody>
@@ -190,8 +190,11 @@ export default function CustomPaginationActionsTable() {
                     {issue.number % 2 != 0 ?
                       <>
                           <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
-                            <FormatedTitle>{issue.number}</FormatedTitle> 
-                          </TableCell> 
+                            <FormatedTitle>{issue.comments}</FormatedTitle>
+                          </TableCell>
+                          <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
+                            <FormatedTitle>{issue.labels.length == 0 ? "N/A" : issue.labels[0].name.toUpperCase()}</FormatedTitle>
+                          </TableCell>
                           <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
                             <FormatedTitle>{issue.created_at.replace(/(\d*)-(\d*)-(\d*).*/, '$3/$2/$1')}</FormatedTitle>
                           </TableCell>
@@ -199,16 +202,17 @@ export default function CustomPaginationActionsTable() {
                             <FormatedTitle>{issue.state.toUpperCase()}</FormatedTitle>
                           </TableCell>
                           <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
-                            <FormatedTitle>{issue.labels.length == 0 ? "N/A" : issue.labels[0].name.toUpperCase()}</FormatedTitle>
-                          </TableCell>
-                          <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
-                            <FormatedTitle>{issue.comments}</FormatedTitle>
-                          </TableCell>
+                            <FormatedTitle>{issue.number}</FormatedTitle> 
+                          </TableCell> 
                       </>
                       :
                       <>
-                        <TableCell component="th" scope="row" style={{ width: 160}} align="center" color="secondary">
-                         <FormatedLabel>{issue.number}</FormatedLabel> 
+                        <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
+                          <FormatedLabel>{issue.comments}</FormatedLabel> 
+                        </TableCell>
+                        
+                        <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
+                       <FormatedLabel>{issue.labels.length == 0 ? "N/A" : issue.labels[0].name.toUpperCase()}</FormatedLabel> 
                         </TableCell>
                     
                         <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
@@ -218,13 +222,9 @@ export default function CustomPaginationActionsTable() {
                         <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
                          <FormatedLabel>{issue.state.toUpperCase()}</FormatedLabel> 
                         </TableCell>
-                        
-                        <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
-                       <FormatedLabel>{issue.labels.length == 0 ? "N/A" : issue.labels[0].name.toUpperCase()}</FormatedLabel> 
+                        <TableCell component="th" scope="row" style={{ width: 160}} align="center" color="secondary">
+                         <FormatedLabel>{issue.number}</FormatedLabel> 
                         </TableCell>
-                        <TableCell component="th" scope="row" style={{ width: 160 }} align="center">
-                          <FormatedLabel>{issue.comments}</FormatedLabel> 
-                          </TableCell>
 
                       </>
                     }
