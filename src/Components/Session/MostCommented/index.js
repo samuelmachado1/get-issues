@@ -24,7 +24,6 @@ import {
 
 import { getAllIssues, getMostCommentedIssues } from '../../../services/api_git';
 import { toast } from 'react-toastify';
-import { blue } from '@material-ui/core/colors';
 
 const useStyles1 = makeStyles((theme) => ({
   root: {
@@ -38,10 +37,28 @@ function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onChangePage } = props;
 
-  const [requests, setRequests] = useState([]);
-  
+  const [total, setTotal] = useState(0)
+  const [loading, setLoading] = React.useState(true);
 
-  // console.log("POR", props);
+  async function init() {
+    setLoading(true);
+    try {
+      await getAllIssues()
+        .then((res) => {
+          setTotal(res.length)
+            
+        });
+    } catch (error) {
+      toast.warn('Aconteceu um erro ao recuperar as issues');
+    } finally {
+      setLoading(false);
+    }
+  }
+  
+  useEffect(() => {
+    init();
+  }, []);
+
 
   const handleFirstPageButtonClick = (event) => {
     onChangePage(event, 0);
@@ -56,30 +73,8 @@ function TablePaginationActions(props) {
   };
 
   const handleLastPageButtonClick = (event) => {
-    onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+    onChangePage(event, Math.max(0, Math.ceil(total / rowsPerPage) - 1));
   };
-  console.log("page", page)
-  // console.log("AIWO", res)
-  // console.log("AIWO", res)
-  const getRequestsIssues = async (query) => {
-      
-    let res = await getAllIssues(page)
-    // console.log("AIWO", res.length)
-    // count = res.length;
-    
-  
-    return { 
-     
-      // data: formatedRequests,
-      
-    }
-    
-  };
-  
- useEffect(() => {
-    // init();
-    getRequestsIssues();
-  }, []);
  
   return (
     <div className={classes.root}>
@@ -95,14 +90,14 @@ function TablePaginationActions(props) {
       </IconButton>
       <IconButton
         onClick={handleNextButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        disabled={page >= Math.ceil(total / rowsPerPage) - 1}
         aria-label="next page"
       >
         {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
       </IconButton>
       <IconButton
         onClick={handleLastPageButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        disabled={page >= Math.ceil(total / rowsPerPage) - 1}
         aria-label="last page"
       >
         {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
@@ -116,25 +111,8 @@ TablePaginationActions.propTypes = {
   onChangePage: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
-  // data: PropTypes.formatedRequests,
 };
 
-
-
-
-// function createData(name, calories, fat) {
-//   return { name, calories, fat };
-// }
-
-const basicColumns = [
-  { title: 'Número', field: 'number', searchable: true },
-  { title: 'Criada em', field: 'created_at' },
-  { title: 'Estado', field: 'states', searchable: true },
-  { title: 'Labels', field: 'labels', searchable: true },
-  
-];
-
-// const columns = basicColumns;
 
 const rows = [
   
@@ -155,15 +133,13 @@ export default function CustomPaginationActionsTable() {
   const userData = JSON.parse(sessionStorage.getItem('user'));
   const [issues, setIssues] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
-  console.log("ROWS ->", rowsPerPage);
-  // console.log("ISS.LEN ->", basicColumns);
-  console.log("PAG", page);
-  
+  const [total, setTotal] = useState(0);
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    init(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
@@ -172,13 +148,13 @@ export default function CustomPaginationActionsTable() {
     setPage(0);
   };
 
-  async function init() {
+  async function init(page) {
     setLoading(true);
     try {
-      await getMostCommentedIssues()
+      await getMostCommentedIssues(page)
         .then((res) => {
-          setLoading(true);
           setIssues(res);
+          setTotal(res.length)
         });
     } catch (error) {
       toast.warn('Aconteceu um erro ao recuperar as issues');
@@ -189,7 +165,6 @@ export default function CustomPaginationActionsTable() {
   
   useEffect(() => {
     init();
-    // getRequestsIssues();
   }, []);
 
   
@@ -252,27 +227,26 @@ export default function CustomPaginationActionsTable() {
                           </TableCell>
 
                       </>
-
-}
-                                                              
+                    }
                   </tr>
                 ))
               }
             </tbody>
         </Table>
-
+{/* 
           {emptyRows > 0 && (
             <TableRow style={{ height: 53 * emptyRows }}>
               <TableCell colSpan={6} />
             </TableRow>
           )}
+           */}
         </TableBody>
         <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[10, { label: 'All', value: -1 }]}
+              rowsPerPageOptions={[10]}
               colSpan={3}
-              count={rows.length}
+              count={total}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{
