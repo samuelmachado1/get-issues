@@ -25,19 +25,14 @@ import Closed from './Closed';
 import Recent from './Recent';
 import MostCommented from './MostCommented';
 
-
-
 import Modal from '../../components/Modal';
-import Title from '../../components/Title';
-
-// import { updateInterview } from '../../services/api_interview';
 
 import {
   handleLoading,
   handleModal,
 } from '../../store/actions/requests';
 
-// import { interviewStatusMessage } from '../../utils/interviewStatus';
+
 import RequestsContext from './context';
 
 const Requests = () => {
@@ -47,31 +42,6 @@ const Requests = () => {
   const [interview, setInterview] = useState(null);
   const [setShowDetailRequest] = useState(false);
 
-  const handleUpdateInterview = (input) => {
-    dispatch(handleLoading(true, 'full'));
-    // const date = input.status === 'SCHEDULED' ? dateFormatterUSA(input.interviewDate) : '';
-    // updateInterview({ ...input})
-    //   .then(() => {
-    //     dispatch(handleModal(true, interviewStatusMessage[input.status], 'Sucesso'));
-    //     // const copySelectedRequest = { ...interview };
-    //     // dispatch(setSelectedRequest(
-    //     //   {
-    //     //     ...copySelectedRequest,
-    //     //     status: interviewStatus[status],
-    //     //     interviewDate: dateFormatterBR(interviewDate),
-    //     //   },
-    //     // ));
-    //   })
-    //   .catch((err) => {
-    //     dispatch(handleModal(true, 'Ops... ocorreu um erro inesperado. Tente novamente.', 'Erro'));
-        
-    //   })
-    //   .finRecenty(() => {
-      // MostCommented.finRecenty(() => {
-    //     dispatch(handleLoading(false, 'full'));
-    //   });
-  };
-
   return (
     <ContainerBox>
       <RequestsContext.Provider value={
@@ -79,7 +49,6 @@ const Requests = () => {
           interview,
           setInterview,
           setShowDetailRequest,
-          handleUpdateInterview,
         }
       }
       >
@@ -99,6 +68,7 @@ const Requests = () => {
                 <Tab><FormatedLabel>FECHADAS</FormatedLabel></Tab>
                 <Tab><FormatedLabel>MAIS COMENTADAS</FormatedLabel></Tab>
               </TabList>
+              
               <TabPanel>
                 <All />
               </TabPanel>

@@ -238,8 +238,7 @@ export default function CustomPaginationActionsTable() {
 
                       </>
 
-}
-                                                              
+                    }
                   </tr>
                 ))
               }
@@ -251,6 +250,7 @@ export default function CustomPaginationActionsTable() {
               <TableCell colSpan={6} />
             </TableRow>
           )}
+          
         </TableBody>
         <TableFooter>
           <TableRow>

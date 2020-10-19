@@ -38,7 +38,6 @@ function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onChangePage } = props;
 
-
   const handleFirstPageButtonClick = (event) => {
     onChangePage(event, 0);
   };
@@ -114,7 +113,6 @@ export default function CustomPaginationActionsTable() {
   const [issues, setIssues] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   
-
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   const handleChangePage = (event, newPage) => {
