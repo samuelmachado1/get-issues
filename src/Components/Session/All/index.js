@@ -26,7 +26,6 @@ import {
 
 import { getIssues, getAllIssues } from '../../../services/api_git';
 import { toast } from 'react-toastify';
-import { blue } from '@material-ui/core/colors';
 
 const useStyles1 = makeStyles((theme) => ({
   root: {
@@ -59,10 +58,8 @@ function TablePaginationActions(props) {
   
   useEffect(() => {
     init();
-    // getRequestsIssues();
   }, []);
 
- 
 
   const handleFirstPageButtonClick = (event) => {
     onChangePage(event, 0);
@@ -77,8 +74,7 @@ function TablePaginationActions(props) {
   };
 
   const handleLastPageButtonClick = (event) => {
-    count = total;
-    onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+    onChangePage(event, Math.max(0, Math.ceil(total / rowsPerPage) - 1));
 
   };
   
@@ -96,14 +92,14 @@ function TablePaginationActions(props) {
       </IconButton>
       <IconButton
         onClick={handleNextButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        disabled={page >= Math.ceil(total / rowsPerPage) - 1}
         aria-label="next page"
       >
         {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
       </IconButton>
       <IconButton
         onClick={handleLastPageButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        disabled={page >= Math.ceil(total / rowsPerPage) - 1}
         aria-label="last page"
       >
         {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
@@ -117,7 +113,6 @@ TablePaginationActions.propTypes = {
   onChangePage: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
-  // data: PropTypes.formatedRequests,
 };
 
 
@@ -145,27 +140,24 @@ export default function CustomPaginationActionsTable() {
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, total - page * rowsPerPage);
 
-  console.log("emptyRows", emptyRows);
-  
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    console.log("SET PAGE", newPage)
+    init(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(1);
+    setPage(0);
   };
 
-  async function init() {
+  async function init(page) {
     setLoading(true);
     try {
-      await getAllIssues()
+      await getIssues(page)
         .then((res) => {
             setIssues(res);
             setTotal(res.length)
-            
         });
     } catch (error) {
       toast.warn('Aconteceu um erro ao recuperar as issues');
@@ -176,7 +168,6 @@ export default function CustomPaginationActionsTable() {
   
   useEffect(() => {
     init();
-    // getRequestsIssues();
   }, []);
 
   
@@ -197,7 +188,6 @@ export default function CustomPaginationActionsTable() {
             <tbody>
               {
                 issues.map((issue) => (
-                  // console.log("issue all --->", issue),
                   <tr>
                     {issue.number % 2 != 0 ?
                       <>
@@ -247,17 +237,17 @@ export default function CustomPaginationActionsTable() {
             </tbody>
         </Table>
 
-          {emptyRows > 0 && (
+          {/* {emptyRows > 0 && (
             <TableRow style={{ height: 53 * emptyRows }}>
               <TableCell colSpan={6} />
             </TableRow>
-          )}
+          )} */}
           
         </TableBody>
         <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[5, 10, { label: 'All', value: -1 }]}
+              rowsPerPageOptions={[10]}
               colSpan={3}
               count={total}
               rowsPerPage={rowsPerPage}

@@ -11,8 +11,9 @@ const api = ({
 
 export const getIssues = async (page) =>(
     axios.get(api.baseUrl +"/repos/facebook/react/issues?filter=all&state=all&sort=created&direction=desc&page=" + page + "&per_page=10&" + api.client_id + "&=" + api.client_secret)) 
-        .then((res) => (res.data))
+        .then((res) => (res.data) )
         .catch((error) => (error))
+       
 ;
     
 
