@@ -45,8 +45,7 @@ function TablePaginationActions(props) {
     try {
       await getAllIssues()
         .then((res) => {
-            
-            setTotal(res.length)
+          setTotal(res.length)
             
         });
     } catch (error) {
@@ -140,9 +139,6 @@ export default function CustomPaginationActionsTable() {
   const userData = JSON.parse(sessionStorage.getItem('user'));
   const [issues, setIssues] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
-  console.log("ROWS ->", rowsPerPage);
-  console.log("ISS.LEN ->", total);
-  console.log("PAG", page);
   
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, total - page * rowsPerPage);
@@ -189,18 +185,17 @@ export default function CustomPaginationActionsTable() {
         <Table>
           <thead>
             <tr>
-              <th><FormatedTitle>Número</FormatedTitle></th>
-              <th><FormatedTitle>Criada em:</FormatedTitle></th>
-              <th><FormatedTitle>Estado</FormatedTitle></th>
-              <th><FormatedTitle>Labels</FormatedTitle></th>
-              <th><FormatedTitle>Quantidade de Comentários</FormatedTitle></th>
-              {/* <th></th> */}
+              <th><FormatedLabel>Número</FormatedLabel></th>
+              <th><FormatedLabel>Criada em:</FormatedLabel></th>
+              <th><FormatedLabel>Estado</FormatedLabel></th>
+              <th><FormatedLabel>Labels</FormatedLabel></th>
+              <th><FormatedLabel>Quantidade de Comentários</FormatedLabel></th>
             </tr>
           </thead>
             <tbody>
               {
                 issues.map((issue) => (
-                  console.log("issue --->", issue),
+                  // console.log("issue all --->", issue),
                   <tr>
                     {issue.number % 2 != 0 ?
                       <>

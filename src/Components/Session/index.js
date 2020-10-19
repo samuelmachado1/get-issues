@@ -13,6 +13,7 @@ import {
   Container,
   Row,
   FormatedTitle,
+  FormatedLabel,
 } from './style';
 
 import Prospection from './Prospection';
@@ -93,10 +94,10 @@ const Requests = () => {
           <Row>
             <Tabs forceRenderTabPanel>
               <TabList>
-                <Tab><FormatedTitle>Todas as Issues</FormatedTitle></Tab>
-                <Tab><FormatedTitle>Issues Abertas</FormatedTitle></Tab>
-                <Tab><FormatedTitle>Issues Fechadas</FormatedTitle></Tab>
-                <Tab><FormatedTitle>Issues Mais Comentadas</FormatedTitle></Tab>
+                <Tab><FormatedLabel>TODAS AS ISSUES</FormatedLabel></Tab>
+                <Tab><FormatedLabel>ABERTAS</FormatedLabel></Tab>
+                <Tab><FormatedLabel>FECHADAS</FormatedLabel></Tab>
+                <Tab><FormatedLabel>MAIS COMENTADAS</FormatedLabel></Tab>
               </TabList>
               <TabPanel>
                 <All />

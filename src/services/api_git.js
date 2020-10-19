@@ -17,7 +17,7 @@ export const getIssues = async (page) =>(
     
 
 export const getAllIssues = async () =>(
-    axios.get(api.baseUrl +"/repos/facebook/react/issues?sort=created&direction=desc&"  + api.client_id + "&=" + api.client_secret)) 
+    axios.get(api.baseUrl +"/repos/facebook/react/issues?filter=all&state=all&sort=created&direction=desc&"  + api.client_id + "&=" + api.client_secret)) 
         .then((res) => (res.data))
         .catch((error) => (error))
 ;
