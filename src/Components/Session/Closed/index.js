@@ -37,6 +37,28 @@ function TablePaginationActions(props) {
   const classes = useStyles1();
   const theme = useTheme();
   const { count, page, rowsPerPage, onChangePage } = props;
+  const [total, setTotal] = useState(0)
+  const [loading, setLoading] = React.useState(true);
+
+  async function init() {
+    setLoading(true);
+    try {
+      await getAllIssues()
+        .then((res) => {
+          setTotal(res.length)
+            
+        });
+    } catch (error) {
+      toast.warn('Aconteceu um erro ao recuperar as issues');
+    } finally {
+      setLoading(false);
+    }
+  }
+  
+  useEffect(() => {
+    init();
+  }, []);
+
 
   const handleFirstPageButtonClick = (event) => {
     onChangePage(event, 0);
@@ -51,7 +73,7 @@ function TablePaginationActions(props) {
   };
 
   const handleLastPageButtonClick = (event) => {
-    onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+    onChangePage(event, Math.max(0, Math.ceil(total / rowsPerPage) - 1));
   };
   
  
@@ -69,14 +91,14 @@ function TablePaginationActions(props) {
       </IconButton>
       <IconButton
         onClick={handleNextButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        disabled={page >= Math.ceil(total / rowsPerPage) - 1}
         aria-label="next page"
       >
         {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
       </IconButton>
       <IconButton
         onClick={handleLastPageButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        disabled={page >= Math.ceil(total / rowsPerPage) - 1}
         aria-label="last page"
       >
         {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
@@ -107,16 +129,18 @@ const useStyles2 = makeStyles({
 export default function CustomPaginationActionsTable() {
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const history = useHistory();
   const userData = JSON.parse(sessionStorage.getItem('user'));
   const [issues, setIssues] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
-  
+  const [total, setTotal] = useState(1);
+
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    init(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
@@ -125,13 +149,13 @@ export default function CustomPaginationActionsTable() {
     setPage(0);
   };
 
-  async function init() {
+  async function init(page) {
     setLoading(true);
     try {
-      await getClosedIssues()
+      await getClosedIssues(page)
         .then((res) => {
             setIssues(res);
-            console.log("GET CLO", res)
+            setTotal(res.length)
         });
     } catch (error) {
       toast.warn('Aconteceu um erro ao recuperar as issues');
@@ -211,18 +235,18 @@ export default function CustomPaginationActionsTable() {
               }
             </tbody>
         </Table>
-        {emptyRows > 0 && (
+        {/* {emptyRows > 0 && (
           <TableRow style={{ height: 53 * emptyRows }}>
             <TableCell colSpan={6} />
           </TableRow>
-        )}
+        )} */}
         </TableBody>
         <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[10, { label: 'All', value: -1 }]}
+              rowsPerPageOptions={[10]}
               colSpan={3}
-              count={rows.length}
+              count={total}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{
