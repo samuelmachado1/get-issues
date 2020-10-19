@@ -7,13 +7,21 @@ import {
   Line,
 } from './styles';
 
+import logo from '../../../assets/img/gitHub.svg'
+
+
 function Logo() {
   return (
     <Container>
       <Line />
       <LogoName>
-        Get issues from the repository React
+        Get issues - repository React
       </LogoName>
+        <img 
+          src={logo}
+          style={{ height: 53, width: 53, margin: 25, }}
+          alt="gitHub" 
+          />
       
     </Container>
   );
